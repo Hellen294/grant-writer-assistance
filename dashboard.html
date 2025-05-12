@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Grant Status</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+    .card {
+      background: white; padding: 20px; margin: auto; max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1); border-left: 5px solid #3498db;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Your Grant Application Status</h2>
+  <div id="statusCard"></div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCrYrzAfC6OjwVSsQbL8HmTLR51595sd6U",
+      authDomain: "dating-5203f.firebaseapp.com",
+      projectId: "dating-5203f",
+      storageBucket: "dating-5203f.firebasestorage.app",
+      messagingSenderId: "243111420136",
+      appId: "1:243111420136:web:60cc69e6ea7474309d695d"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please log in first");
+        window.location.href = "index.html";
+      } else {
+        db.ref('grantApplications/' + user.uid).once('value')
+          .then(snapshot => {
+            const d = snapshot.val();
+            document.getElementById('statusCard').innerHTML = `
+              <div class="card">
+                <p><strong>Name:</strong> ${d.name}</p>
+                <p><strong>Email:</strong> ${d.email}</p>
+                <p><strong>Business:</strong> ${d.businessName}</p>
+                <p><strong>Status:</strong> <em>${d.status}</em></p>
+                <p><strong>Submitted:</strong> ${new Date(d.timestamp).toLocaleString()}</p>
+              </div>`;
+          });
+      }
+    });
+  </script>
+</body>
+</html>
