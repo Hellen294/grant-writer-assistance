@@ -84,6 +84,51 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    .reward-3d {
+      margin-top: 30px;
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      perspective: 800px;
+      color: #2c3e50;
+      transform: rotateX(15deg);
+      text-shadow:
+        1px 1px 0 #ccc,
+        2px 2px 0 #bbb,
+        3px 3px 0 #aaa,
+        4px 4px 0 #999;
+      animation: bounceIn 1s ease-out;
+    }
+
+    .reward-3d span {
+      display: block;
+      font-size: 36px;
+      color: #27ae60;
+      text-shadow:
+        1px 1px 0 #ccc,
+        2px 2px 0 #bbb,
+        3px 3px 0 #aaa,
+        4px 4px 0 #999;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) rotateX(90deg);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05) rotateX(-10deg);
+      }
+      70% {
+        transform: scale(0.95) rotateX(10deg);
+      }
+      100% {
+        transform: scale(1) rotateX(0deg);
+      }
+    }
+
     @media (max-width: 600px) {
       .card { padding: 20px; }
       .status-box { font-size: 1rem; padding: 8px 16px; }
@@ -120,7 +165,7 @@
 
       const uid = user.uid;
 
-      // Grant application display
+      // Display grant application
       const snapshot = await db.ref('grantApplications/' + uid).once('value');
       const d = snapshot.val();
 
@@ -151,14 +196,14 @@
       document.getElementById("statusCard").innerHTML = cardHTML;
       document.getElementById("referralLink").value = `${window.location.origin}${window.location.pathname}?ref=${uid}`;
 
-      // Initialize Firestore referral record
+      // Check if user record exists in Firestore
       const userRef = fs.collection("users").doc(uid);
       const userDoc = await userRef.get();
       if (!userDoc.exists) {
         await userRef.set({ referrals: [] });
       }
 
-      // Check if this visit is a referral
+      // Process referral if user visited via link
       const urlParams = new URLSearchParams(window.location.search);
       const ref = urlParams.get("ref");
       if (ref && ref !== uid) {
@@ -175,7 +220,7 @@
         }
       }
 
-      // Show referral progress
+      // Update referral progress
       updateReferralProgress(uid);
     });
 
@@ -189,6 +234,19 @@
       const progress = document.getElementById("referralProgress");
       progress.style.width = percent + "%";
       progress.textContent = Math.floor(percent) + "%";
+
+      // Show reward if achieved
+      const existing = document.getElementById("reward3d");
+      if (count >= referralGoal && !existing) {
+        const rewardDiv = document.createElement("div");
+        rewardDiv.id = "reward3d";
+        rewardDiv.innerHTML = `
+          <div class="reward-3d">Rephrase:<br><span>Your Guarantee!</span></div>
+        `;
+        document.querySelector(".card").appendChild(rewardDiv);
+      } else if (count < referralGoal && existing) {
+        existing.remove();
+      }
     }
 
     function copyReferralLink() {
